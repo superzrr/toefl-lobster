@@ -13,7 +13,6 @@
             padding: 20px;
         }
         .container { max-width: 900px; margin: 0 auto; }
-
         .countdown {
             background: rgba(255,255,255,0.2);
             backdrop-filter: blur(10px);
@@ -29,7 +28,7 @@
             justify-content: center;
             gap: 8px;
             font-size: 1.1em;
-            margin-bottom: 10px;
+            flex-wrap: wrap;
         }
         .countdown-number { font-size: 1.5em; font-weight: bold; color: #ffd700; }
         .progress-bar {
@@ -65,6 +64,8 @@
             margin-bottom: 20px;
             padding-bottom: 15px;
             border-bottom: 2px solid #f0f0f0;
+            flex-wrap: wrap;
+            gap: 10px;
         }
         .day-title { font-size: 1.8em; color: #333; }
         .day-date { color: #666; font-size: 0.9em; }
@@ -88,7 +89,7 @@
             transition: all 0.3s ease;
             cursor: pointer;
         }
-        .task-item:hover { background: #e9ecef; transform: translateX(5px); }
+        .task-item:hover { background: #e9ecef; }
         .task-item.completed { background: #d4edda; opacity: 0.8; }
         .task-item.completed .task-text { text-decoration: line-through; color: #28a745; }
         .checkbox {
@@ -117,17 +118,6 @@
         .task-time { color: #667eea; font-weight: bold; font-size: 0.9em; margin-bottom: 3px; }
         .task-text { color: #333; font-size: 1em; }
         .task-note { color: #888; font-size: 0.85em; margin-top: 5px; }
-        .task-actions { margin-top: 10px; display: flex; gap: 10px; flex-wrap: wrap; }
-        .btn-small {
-            padding: 6px 12px;
-            border: none;
-            border-radius: 15px;
-            font-size: 0.85em;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        .btn-start { background: linear-gradient(135deg, #667eea, #764ba2); color: white; }
-        .btn-start:hover { transform: translateY(-2px); box-shadow: 0 3px 10px rgba(102, 126, 234, 0.3); }
         .day-focus {
             background: linear-gradient(135deg, #fff3cd, #ffeaa7);
             border-left: 4px solid #ffc107;
@@ -137,6 +127,20 @@
         }
         .day-focus h3 { color: #856404; margin-bottom: 8px; }
         .day-focus p { color: #856404; font-size: 0.95em; }
+        .grammar-section {
+            background: #fff3cd;
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        .grammar-section h3 { color: #856404; margin-bottom: 10px; }
+        .grammar-list { list-style: none; }
+        .grammar-list li {
+            padding: 8px 0;
+            color: #856404;
+            border-bottom: 1px dashed #ffeaa7;
+        }
+        .grammar-list li:last-child { border-bottom: none; }
         .nav-buttons {
             display: flex;
             justify-content: space-between;
@@ -158,17 +162,6 @@
         .btn-secondary { background: #e9ecef; color: #666; }
         .btn-secondary:hover { background: #dee2e6; }
         .btn:disabled { opacity: 0.5; cursor: not-allowed; }
-        .completion-message {
-            background: linear-gradient(135deg, #d4edda, #c3e6cb);
-            border-radius: 15px;
-            padding: 30px;
-            text-align: center;
-            margin-top: 20px;
-            display: none;
-        }
-        .completion-message.show { display: block; animation: fadeIn 0.5s ease; }
-        .completion-message h2 { color: #155724; margin-bottom: 10px; }
-        .completion-message p { color: #155724; }
         .day-nav {
             display: flex;
             justify-content: center;
@@ -196,23 +189,20 @@
         .day-dot.active { background: linear-gradient(135deg, #667eea, #764ba2); color: white; transform: scale(1.05); }
         .day-dot.completed { background: #28a745; color: white; }
         .day-dot:hover { transform: scale(1.05); }
-        .grammar-section {
-            background: #fff3cd;
-            border-radius: 12px;
-            padding: 20px;
+        .completion-message {
+            background: linear-gradient(135deg, #d4edda, #c3e6cb);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
             margin-top: 20px;
+            display: none;
         }
-        .grammar-section h3 { color: #856404; margin-bottom: 10px; }
-        .grammar-list { list-style: none; }
-        .grammar-list li {
-            padding: 8px 0;
-            color: #856404;
-            border-bottom: 1px dashed #ffeaa7;
-        }
-        .grammar-list li:last-child { border-bottom: none; }
+        .completion-message.show { display: block; animation: fadeIn 0.5s ease; }
+        .completion-message h2 { color: #155724; margin-bottom: 10px; }
+        .completion-message p { color: #155724; }
         @media (max-width: 600px) {
-            .header h1 { font-size: 1.8em; }
             .day-dot { min-width: 55px; padding: 6px 6px; font-size: 0.7em; }
+            .day-title { font-size: 1.5em; }
         }
     </style>
 </head>
@@ -246,8 +236,8 @@
             </div>
             
             <div class="day-focus">
-                <h3>📍 今日重点</h3>
-                <p>完成全真模考，了解真实水平，确定薄弱环节（特别是语法问题）</p>
+                <h3>📍 今日目标</h3>
+                <p>了解真实水平，确定语法薄弱点</p>
             </div>
             
             <ul class="task-list">
@@ -256,10 +246,7 @@
                     <div class="task-content">
                         <div class="task-time">09:00-11:00</div>
                         <div class="task-text">全真模考（TPO最新一套）</div>
-                        <div class="task-note">严格计时2小时，模拟真实考试环境</div>
-                        <div class="task-actions">
-                            <button class="btn-small btn-start" onclick="alert('请在TPO软件或网站上完成模考')">开始模考</button>
-                        </div>
+                        <div class="task-note">严格计时2小时，记录各科得分</div>
                     </div>
                 </li>
                 <li class="task-item" data-task="2">
@@ -267,7 +254,7 @@
                     <div class="task-content">
                         <div class="task-time">11:00-12:00</div>
                         <div class="task-text">模考分析，确定薄弱环节</div>
-                        <div class="task-note">记录各科得分，找出最需要提升的部分</div>
+                        <div class="task-note">列出Top 3薄弱点</div>
                     </div>
                 </li>
                 <li class="task-item" data-task="3">
@@ -275,21 +262,15 @@
                     <div class="task-content">
                         <div class="task-time">14:00-15:30</div>
                         <div class="task-text">阅读专项：长难句语法分析</div>
-                        <div class="task-note">重点练习语法薄弱点</div>
-                        <div class="task-actions">
-                            <button class="btn-small btn-start" onclick="alert('请使用TPO阅读材料练习')">开始练习</button>
-                        </div>
+                        <div class="task-note">能找出句子主干</div>
                     </div>
                 </li>
                 <li class="task-item" data-task="4">
                     <div class="checkbox"></div>
                     <div class="task-content">
                         <div class="task-time">15:45-17:15</div>
-                        <div class="task-text">听力专项：笔记法+学科词汇</div>
-                        <div class="task-note">练习Cornell笔记法</div>
-                        <div class="task-actions">
-                            <button class="btn-small btn-start" onclick="alert('请使用TPO听力材料练习')">开始练习</button>
-                        </div>
+                        <div class="task-text">听力专项：Cornell笔记法练习</div>
+                        <div class="task-note">能记录关键信息</div>
                     </div>
                 </li>
                 <li class="task-item" data-task="5">
@@ -297,18 +278,15 @@
                     <div class="task-content">
                         <div class="task-time">19:00-20:00</div>
                         <div class="task-text">词汇复习：核心高频词100个</div>
-                        <div class="task-note">使用间隔重复法记忆</div>
+                        <div class="task-note">能说出中文意思</div>
                     </div>
                 </li>
                 <li class="task-item" data-task="6">
                     <div class="checkbox"></div>
                     <div class="task-content">
                         <div class="task-time">20:00-20:30</div>
-                        <div class="task-text">语法自测：真题语法诊断</div>
-                        <div class="task-note">确定Top 3语法薄弱点</div>
-                        <div class="task-actions">
-                            <button class="btn-small btn-start" onclick="window.location.href='grammar-test.html'">开始自测</button>
-                        </div>
+                        <div class="task-text">语法自测：完成30题语法诊断</div>
+                        <div class="task-note">记录错误类型</div>
                     </div>
                 </li>
             </ul>
@@ -316,9 +294,9 @@
             <div class="grammar-section">
                 <h3>📚 今日语法重点</h3>
                 <ul class="grammar-list">
-                    <li>完成语法自测，了解自己的语法盲区</li>
+                    <li>完成语法自测，了解语法盲区</li>
                     <li>重点关注：主谓一致、时态、从句结构</li>
-                    <li>记录自己的错误类型，为后续训练做准备</li>
+                    <li>记录错误类型，为后续训练做准备</li>
                 </ul>
             </div>
             
@@ -329,7 +307,7 @@
             
             <div class="completion-message" id="completionMsg1">
                 <h2>🎉 3月5日完成！</h2>
-                <p>明天继续加油，重点突破语法主谓一致和时态！</p>
+                <p>明天重点突破语法主谓一致和时态！</p>
             </div>
         </div>
         
@@ -344,8 +322,8 @@
             </div>
             
             <div class="day-focus">
-                <h3>📍 今日重点</h3>
-                <p>读写强化，学术讨论写作模板必须熟记，语法重点突破主谓一致+时态</p>
+                <h3>📍 今日目标</h3>
+                <p>掌握主谓一致规则，纠正时态错误</p>
             </div>
             
             <ul class="task-list">
@@ -353,60 +331,48 @@
                     <div class="checkbox"></div>
                     <div class="task-content">
                         <div class="task-time">09:00-10:30</div>
-                        <div class="task-text">阅读：TPO Passage 2篇+精析</div>
-                        <div class="task-note">分析长难句语法结构</div>
-                        <div class="task-actions">
-                            <button class="btn-small btn-start" onclick="alert('请使用TPO阅读材料练习')">开始练习</button>
-                        </div>
+                        <div class="task-text">阅读练习：TPO Passage 2篇</div>
+                        <div class="task-note">标注长难句结构，能分析句子成分</div>
                     </div>
                 </li>
                 <li class="task-item" data-task="2">
                     <div class="checkbox"></div>
                     <div class="task-content">
                         <div class="task-time">10:45-12:00</div>
-                        <div class="task-text">学术讨论写作：模板背诵+练习2篇</div>
-                        <div class="task-note">重点检查语法错误，使用简单正确句型</div>
-                        <div class="task-actions">
-                            <button class="btn-small btn-start" onclick="alert('请在纸上或文档中完成写作练习')">开始写作</button>
-                        </div>
+                        <div class="task-text">学术讨论写作：背诵模板，练习2篇</div>
+                        <div class="task-note">语法错误≤3处</div>
                     </div>
                 </li>
                 <li class="task-item" data-task="3">
                     <div class="checkbox"></div>
                     <div class="task-content">
                         <div class="task-time">14:00-15:30</div>
-                        <div class="task-text">听力：Conversation 2篇+Lecture 1篇</div>
-                        <div class="task-note">练习笔记法，关注语法信号词</div>
-                        <div class="task-actions">
-                            <button class="btn-small btn-start" onclick="alert('请使用TPO听力材料练习')">开始练习</button>
-                        </div>
+                        <div class="task-text">听力练习：Conversation 2篇+Lecture 1篇</div>
+                        <div class="task-note">能复述主要内容</div>
                     </div>
                 </li>
                 <li class="task-item" data-task="4">
                     <div class="checkbox"></div>
                     <div class="task-content">
                         <div class="task-time">15:45-17:00</div>
-                        <div class="task-text">口语：Task 1-2 各练习3题</div>
-                        <div class="task-note">录音并检查语法错误</div>
-                        <div class="task-actions">
-                            <button class="btn-small btn-start" onclick="alert('请使用手机录音练习')">开始练习</button>
-                        </div>
+                        <div class="task-text">口语练习：Task 1-2 各3题</div>
+                        <div class="task-note">录音并自查语法</div>
                     </div>
                 </li>
                 <li class="task-item" data-task="5">
                     <div class="checkbox"></div>
                     <div class="task-content">
                         <div class="task-time">19:00-20:00</div>
-                        <div class="task-text">词汇：学科词汇(生物+地质)</div>
-                        <div class="task-note">结合例句记忆</div>
+                        <div class="task-text">词汇复习：学科词汇（生物+地质）50个</div>
+                        <div class="task-note">能正确拼写</div>
                     </div>
                 </li>
                 <li class="task-item" data-task="6">
                     <div class="checkbox"></div>
                     <div class="task-content">
                         <div class="task-time">20:00-20:30</div>
-                        <div class="task-text">语法专项：主谓一致+时态改错</div>
-                        <div class="task-note">针对自测中的薄弱点</div>
+                        <div class="task-text">语法专项：主谓一致改错30句</div>
+                        <div class="task-note">正确率≥80%</div>
                     </div>
                 </li>
             </ul>
@@ -414,10 +380,10 @@
             <div class="grammar-section">
                 <h3>📚 今日语法重点：主谓一致+时态</h3>
                 <ul class="grammar-list">
-                    <li>第三人称单数：he/she/it + 动词+s (He likes, She goes)</li>
-                    <li>There be句型就近原则：There are two books and a pen</li>
-                    <li>现在完成时：have/has + done (I have lived here for 3 years)</li>
-                    <li>过去完成时：had done (过去的过去)</li>
+                    <li>第三人称单数：he/she/it + 动词+s</li>
+                    <li>There be句型就近原则</li>
+                    <li>现在完成时：have/has + done</li>
+                    <li>过去完成时：had done</li>
                 </ul>
             </div>
             
@@ -443,8 +409,8 @@
             </div>
             
             <div class="day-focus">
-                <h3>📍 今日重点</h3>
-                <p>听说强化，综合写作阅读和听力要点对应关系，语法重点突破从句</p>
+                <h3>📍 今日目标</h3>
+                <p>掌握定语从句和状语从句，避免中式英语</p>
             </div>
             
             <ul class="task-list">
@@ -452,60 +418,48 @@
                     <div class="checkbox"></div>
                     <div class="task-content">
                         <div class="task-time">09:00-10:30</div>
-                        <div class="task-text">阅读：TPO Passage 2篇+错题分析</div>
-                        <div class="task-note">分析语法在阅读理解中的作用</div>
-                        <div class="task-actions">
-                            <button class="btn-small btn-start" onclick="alert('请使用TPO阅读材料练习')">开始练习</button>
-                        </div>
+                        <div class="task-text">阅读练习：TPO Passage 2篇</div>
+                        <div class="task-note">分析从句结构，能识别从句类型</div>
                     </div>
                 </li>
                 <li class="task-item" data-task="2">
                     <div class="checkbox"></div>
                     <div class="task-content">
                         <div class="task-time">10:45-12:00</div>
-                        <div class="task-text">综合写作：模板+练习2篇</div>
-                        <div class="task-note">掌握阅读-听力对比的语法表达</div>
-                        <div class="task-actions">
-                            <button class="btn-small btn-start" onclick="alert('请在纸上或文档中完成写作练习')">开始写作</button>
-                        </div>
+                        <div class="task-text">综合写作：背诵模板，练习2篇</div>
+                        <div class="task-note">能对比阅读-听力观点</div>
                     </div>
                 </li>
                 <li class="task-item" data-task="3">
                     <div class="checkbox"></div>
                     <div class="task-content">
                         <div class="task-time">14:00-15:30</div>
-                        <div class="task-text">听力：Lecture 3篇+笔记整理</div>
-                        <div class="task-note">关注学科词汇和语法结构</div>
-                        <div class="task-actions">
-                            <button class="btn-small btn-start" onclick="alert('请使用TPO听力材料练习')">开始练习</button>
-                        </div>
+                        <div class="task-text">听力练习：Lecture 3篇</div>
+                        <div class="task-note">能写出讲座提纲</div>
                     </div>
                 </li>
                 <li class="task-item" data-task="4">
                     <div class="checkbox"></div>
                     <div class="task-content">
                         <div class="task-time">15:45-17:00</div>
-                        <div class="task-text">口语：Task 3-4 各练习3题</div>
+                        <div class="task-text">口语练习：Task 3-4 各3题</div>
                         <div class="task-note">使用从句连接信息</div>
-                        <div class="task-actions">
-                            <button class="btn-small btn-start" onclick="alert('请使用手机录音练习')">开始练习</button>
-                        </div>
                     </div>
                 </li>
                 <li class="task-item" data-task="5">
                     <div class="checkbox"></div>
                     <div class="task-content">
                         <div class="task-time">19:00-20:00</div>
-                        <div class="task-text">词汇：学科词汇(天文+艺术)</div>
-                        <div class="task-note">记忆词根词缀</div>
+                        <div class="task-text">词汇复习：学科词汇（天文+艺术）50个</div>
+                        <div class="task-note">能正确拼写</div>
                     </div>
                 </li>
                 <li class="task-item" data-task="6">
                     <div class="checkbox"></div>
                     <div class="task-content">
                         <div class="task-time">20:00-20:30</div>
-                        <div class="task-text">语法专项：从句速成训练</div>
-                        <div class="task-note">定语从句、状语从句练习</div>
+                        <div class="task-text">语法专项：从句改错30句</div>
+                        <div class="task-note">正确率≥80%</div>
                     </div>
                 </li>
             </ul>
@@ -570,10 +524,7 @@
             dayConfig.forEach(config => {
                 const dot = document.createElement('div');
                 dot.className = 'day-dot';
-                dot.innerHTML = `
-                    <span class="day-label">${config.date}</span>
-                    <span class="day-date-small">${config.weekday}</span>
-                `;
+                dot.innerHTML = '<span class="day-label">' + config.date + '</span><span class="day-date-small">' + config.weekday + '</span>';
                 if (completedDays.includes(config.day)) {
                     dot.classList.add('completed');
                 } else if (config.day === currentDay) {
@@ -607,7 +558,6 @@
                 localStorage.setItem('toeflCompletedDays', JSON.stringify(completedDays));
             }
             
-            // Show completion message
             const msg = document.getElementById('completionMsg' + day);
             if (msg) {
                 msg.classList.add('show');
@@ -616,7 +566,6 @@
             updateCountdown();
             createDayNav();
             
-            // Auto advance to next day after 2 seconds
             if (day < 3) {
                 setTimeout(() => {
                     goToDay(day + 1);
