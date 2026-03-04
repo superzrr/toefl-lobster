@@ -5,41 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>詹乐童托福冲刺 - 9天计划</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             padding: 20px;
         }
-        
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-        
-        .header {
-            text-align: center;
-            color: white;
-            margin-bottom: 30px;
-        }
-        
-        .header h1 {
-            font-size: 2.5em;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
-        }
-        
-        .header .subtitle {
-            font-size: 1.2em;
-            opacity: 0.9;
-        }
-        
+        .container { max-width: 900px; margin: 0 auto; }
+        .header { text-align: center; color: white; margin-bottom: 30px; }
+        .header h1 { font-size: 2.5em; margin-bottom: 10px; text-shadow: 2px 2px 4px rgba(0,0,0,0.2); }
+        .header .subtitle { font-size: 1.2em; opacity: 0.9; }
         .countdown {
             background: rgba(255,255,255,0.2);
             backdrop-filter: blur(10px);
@@ -49,13 +25,7 @@
             text-align: center;
             color: white;
         }
-        
-        .countdown-number {
-            font-size: 3em;
-            font-weight: bold;
-            color: #ffd700;
-        }
-        
+        .countdown-number { font-size: 3em; font-weight: bold; color: #ffd700; }
         .progress-bar {
             background: rgba(255,255,255,0.3);
             border-radius: 10px;
@@ -63,14 +33,12 @@
             margin: 20px 0;
             overflow: hidden;
         }
-        
         .progress-fill {
             background: linear-gradient(90deg, #ffd700, #ffed4e);
             height: 100%;
             border-radius: 10px;
             transition: width 0.5s ease;
         }
-        
         .day-card {
             background: white;
             border-radius: 20px;
@@ -79,17 +47,11 @@
             box-shadow: 0 10px 40px rgba(0,0,0,0.1);
             display: none;
         }
-        
-        .day-card.active {
-            display: block;
-            animation: fadeIn 0.5s ease;
-        }
-        
+        .day-card.active { display: block; animation: fadeIn 0.5s ease; }
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        
         .day-header {
             display: flex;
             justify-content: space-between;
@@ -98,17 +60,8 @@
             padding-bottom: 15px;
             border-bottom: 2px solid #f0f0f0;
         }
-        
-        .day-title {
-            font-size: 1.8em;
-            color: #333;
-        }
-        
-        .day-date {
-            color: #666;
-            font-size: 0.9em;
-        }
-        
+        .day-title { font-size: 1.8em; color: #333; }
+        .day-date { color: #666; font-size: 0.9em; }
         .day-phase {
             display: inline-block;
             background: linear-gradient(135deg, #667eea, #764ba2);
@@ -118,37 +71,20 @@
             font-size: 0.8em;
             margin-left: 10px;
         }
-        
-        .task-list {
-            list-style: none;
-        }
-        
+        .task-list { list-style: none; }
         .task-item {
             background: #f8f9fa;
             border-radius: 12px;
             padding: 15px 20px;
             margin-bottom: 12px;
             display: flex;
-            align-items: center;
+            align-items: flex-start;
             transition: all 0.3s ease;
             cursor: pointer;
         }
-        
-        .task-item:hover {
-            background: #e9ecef;
-            transform: translateX(5px);
-        }
-        
-        .task-item.completed {
-            background: #d4edda;
-            opacity: 0.8;
-        }
-        
-        .task-item.completed .task-text {
-            text-decoration: line-through;
-            color: #28a745;
-        }
-        
+        .task-item:hover { background: #e9ecef; transform: translateX(5px); }
+        .task-item.completed { background: #d4edda; opacity: 0.8; }
+        .task-item.completed .task-text { text-decoration: line-through; color: #28a745; }
         .checkbox {
             width: 24px;
             height: 24px;
@@ -160,13 +96,9 @@
             justify-content: center;
             transition: all 0.3s ease;
             flex-shrink: 0;
+            margin-top: 3px;
         }
-        
-        .task-item.completed .checkbox {
-            background: #28a745;
-            border-color: #28a745;
-        }
-        
+        .task-item.completed .checkbox { background: #28a745; border-color: #28a745; }
         .checkbox::after {
             content: '✓';
             color: white;
@@ -174,33 +106,22 @@
             opacity: 0;
             transition: opacity 0.3s ease;
         }
-        
-        .task-item.completed .checkbox::after {
-            opacity: 1;
-        }
-        
-        .task-content {
-            flex: 1;
-        }
-        
-        .task-time {
-            color: #667eea;
-            font-weight: bold;
-            font-size: 0.9em;
-            margin-bottom: 3px;
-        }
-        
-        .task-text {
-            color: #333;
-            font-size: 1em;
-        }
-        
-        .task-note {
-            color: #888;
+        .task-item.completed .checkbox::after { opacity: 1; }
+        .task-content { flex: 1; }
+        .task-time { color: #667eea; font-weight: bold; font-size: 0.9em; margin-bottom: 3px; }
+        .task-text { color: #333; font-size: 1em; }
+        .task-note { color: #888; font-size: 0.85em; margin-top: 5px; }
+        .task-actions { margin-top: 10px; display: flex; gap: 10px; flex-wrap: wrap; }
+        .btn-small {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 15px;
             font-size: 0.85em;
-            margin-top: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
         }
-        
+        .btn-start { background: linear-gradient(135deg, #667eea, #764ba2); color: white; }
+        .btn-start:hover { transform: translateY(-2px); box-shadow: 0 3px 10px rgba(102, 126, 234, 0.3); }
         .day-focus {
             background: linear-gradient(135deg, #fff3cd, #ffeaa7);
             border-left: 4px solid #ffc107;
@@ -208,17 +129,8 @@
             border-radius: 0 12px 12px 0;
             margin: 20px 0;
         }
-        
-        .day-focus h3 {
-            color: #856404;
-            margin-bottom: 8px;
-        }
-        
-        .day-focus p {
-            color: #856404;
-            font-size: 0.95em;
-        }
-        
+        .day-focus h3 { color: #856404; margin-bottom: 8px; }
+        .day-focus p { color: #856404; font-size: 0.95em; }
         .nav-buttons {
             display: flex;
             justify-content: space-between;
@@ -226,7 +138,6 @@
             padding-top: 20px;
             border-top: 2px solid #f0f0f0;
         }
-        
         .btn {
             padding: 12px 30px;
             border: none;
@@ -236,31 +147,11 @@
             transition: all 0.3s ease;
             font-weight: bold;
         }
-        
-        .btn-primary {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-        }
-        
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
-        }
-        
-        .btn-secondary {
-            background: #e9ecef;
-            color: #666;
-        }
-        
-        .btn-secondary:hover {
-            background: #dee2e6;
-        }
-        
-        .btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-        
+        .btn-primary { background: linear-gradient(135deg, #667eea, #764ba2); color: white; }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4); }
+        .btn-secondary { background: #e9ecef; color: #666; }
+        .btn-secondary:hover { background: #dee2e6; }
+        .btn:disabled { opacity: 0.5; cursor: not-allowed; }
         .completion-message {
             background: linear-gradient(135deg, #d4edda, #c3e6cb);
             border-radius: 15px;
@@ -269,98 +160,53 @@
             margin-top: 20px;
             display: none;
         }
-        
-        .completion-message.show {
-            display: block;
-            animation: fadeIn 0.5s ease;
-        }
-        
-        .completion-message h2 {
-            color: #155724;
-            margin-bottom: 10px;
-        }
-        
-        .completion-message p {
-            color: #155724;
-        }
-        
+        .completion-message.show { display: block; animation: fadeIn 0.5s ease; }
+        .completion-message h2 { color: #155724; margin-bottom: 10px; }
+        .completion-message p { color: #155724; }
         .day-nav {
             display: flex;
             justify-content: center;
-            gap: 10px;
+            gap: 8px;
             margin-bottom: 20px;
             flex-wrap: wrap;
         }
-        
         .day-dot {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
+            min-width: 70px;
+            padding: 8px 10px;
+            border-radius: 15px;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
             font-weight: bold;
             cursor: pointer;
             transition: all 0.3s ease;
             border: 2px solid transparent;
+            font-size: 0.75em;
         }
-        
-        .day-dot.pending {
-            background: #e9ecef;
-            color: #666;
-        }
-        
-        .day-dot.active {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-            transform: scale(1.1);
-        }
-        
-        .day-dot.completed {
-            background: #28a745;
-            color: white;
-        }
-        
-        .day-dot:hover {
-            transform: scale(1.1);
-        }
-        
+        .day-dot .day-label { font-size: 0.85em; }
+        .day-dot .day-date-small { font-size: 0.7em; font-weight: normal; margin-top: 2px; opacity: 0.8; }
+        .day-dot.pending { background: #e9ecef; color: #666; }
+        .day-dot.active { background: linear-gradient(135deg, #667eea, #764ba2); color: white; transform: scale(1.05); }
+        .day-dot.completed { background: #28a745; color: white; }
+        .day-dot:hover { transform: scale(1.05); }
         .grammar-section {
             background: #fff3cd;
             border-radius: 12px;
             padding: 20px;
             margin-top: 20px;
         }
-        
-        .grammar-section h3 {
-            color: #856404;
-            margin-bottom: 10px;
-        }
-        
-        .grammar-list {
-            list-style: none;
-        }
-        
+        .grammar-section h3 { color: #856404; margin-bottom: 10px; }
+        .grammar-list { list-style: none; }
         .grammar-list li {
             padding: 8px 0;
             color: #856404;
             border-bottom: 1px dashed #ffeaa7;
         }
-        
-        .grammar-list li:last-child {
-            border-bottom: none;
-        }
-        
+        .grammar-list li:last-child { border-bottom: none; }
         @media (max-width: 600px) {
-            .header h1 {
-                font-size: 1.8em;
-            }
-            
-            .day-dot {
-                width: 35px;
-                height: 35px;
-                font-size: 0.9em;
-            }
+            .header h1 { font-size: 1.8em; }
+            .day-dot { min-width: 55px; padding: 6px 6px; font-size: 0.7em; }
         }
     </style>
 </head>
@@ -383,14 +229,14 @@
         
         <div class="day-nav" id="dayNav"></div>
         
-        <!-- Day 1 -->
+        <!-- Day 1: 3月5日 -->
         <div class="day-card active" data-day="1">
             <div class="day-header">
                 <div>
-                    <span class="day-title">Day 1</span>
+                    <span class="day-title">3月5日</span>
                     <span class="day-phase">诊断期</span>
                 </div>
-                <div class="day-date">3月5日 周三</div>
+                <div class="day-date">周三 · Day 1</div>
             </div>
             
             <div class="day-focus">
@@ -405,6 +251,9 @@
                         <div class="task-time">09:00-11:00</div>
                         <div class="task-text">全真模考（TPO最新一套）</div>
                         <div class="task-note">严格计时2小时，模拟真实考试环境</div>
+                        <div class="task-actions">
+                            <button class="btn-small btn-start" onclick="alert('请在TPO软件或网站上完成模考')">开始模考</button>
+                        </div>
                     </div>
                 </li>
                 <li class="task-item" data-task="2">
@@ -419,8 +268,11 @@
                     <div class="checkbox"></div>
                     <div class="task-content">
                         <div class="task-time">14:00-15:30</div>
-                        <div class="task-text">阅读专项：题型回顾+长难句</div>
+                        <div class="task-text">阅读专项：长难句语法分析</div>
                         <div class="task-note">重点练习语法薄弱点</div>
+                        <div class="task-actions">
+                            <button class="btn-small btn-start" onclick="alert('请使用TPO阅读材料练习')">开始练习</button>
+                        </div>
                     </div>
                 </li>
                 <li class="task-item" data-task="4">
@@ -429,13 +281,16 @@
                         <div class="task-time">15:45-17:15</div>
                         <div class="task-text">听力专项：笔记法+学科词汇</div>
                         <div class="task-note">练习Cornell笔记法</div>
+                        <div class="task-actions">
+                            <button class="btn-small btn-start" onclick="alert('请使用TPO听力材料练习')">开始练习</button>
+                        </div>
                     </div>
                 </li>
                 <li class="task-item" data-task="5">
                     <div class="checkbox"></div>
                     <div class="task-content">
                         <div class="task-time">19:00-20:00</div>
-                        <div class="task-text">词汇复习：核心高频词200个</div>
+                        <div class="task-text">词汇复习：核心高频词100个</div>
                         <div class="task-note">使用间隔重复法记忆</div>
                     </div>
                 </li>
@@ -443,8 +298,11 @@
                     <div class="checkbox"></div>
                     <div class="task-content">
                         <div class="task-time">20:00-20:30</div>
-                        <div class="task-text">语法自测：完成真题语法诊断</div>
+                        <div class="task-text">语法自测：真题语法诊断</div>
                         <div class="task-note">确定Top 3语法薄弱点</div>
+                        <div class="task-actions">
+                            <button class="btn-small btn-start" onclick="window.open('https://docs.google.com/forms/d/e/1FAIpQLSfYg9P3x8Xg_sample_link', '_blank')">开始自测</button>
+                        </div>
                     </div>
                 </li>
             </ul>
@@ -464,19 +322,19 @@
             </div>
             
             <div class="completion-message" id="completionMsg1">
-                <h2>🎉 Day 1 完成！</h2>
+                <h2>🎉 3月5日完成！</h2>
                 <p>明天继续加油，重点突破语法主谓一致和时态！</p>
             </div>
         </div>
         
-        <!-- Day 2 -->
+        <!-- Day 2: 3月6日 -->
         <div class="day-card" data-day="2">
             <div class="day-header">
                 <div>
-                    <span class="day-title">Day 2</span>
+                    <span class="day-title">3月6日</span>
                     <span class="day-phase">强化期</span>
                 </div>
-                <div class="day-date">3月6日 周四</div>
+                <div class="day-date">周四 · Day 2</div>
             </div>
             
             <div class="day-focus">
@@ -491,6 +349,9 @@
                         <div class="task-time">09:00-10:30</div>
                         <div class="task-text">阅读：TPO Passage 2篇+精析</div>
                         <div class="task-note">分析长难句语法结构</div>
+                        <div class="task-actions">
+                            <button class="btn-small btn-start" onclick="alert('请使用TPO阅读材料练习')">开始练习</button>
+                        </div>
                     </div>
                 </li>
                 <li class="task-item" data-task="2">
@@ -499,6 +360,9 @@
                         <div class="task-time">10:45-12:00</div>
                         <div class="task-text">学术讨论写作：模板背诵+练习2篇</div>
                         <div class="task-note">重点检查语法错误，使用简单正确句型</div>
+                        <div class="task-actions">
+                            <button class="btn-small btn-start" onclick="alert('请在纸上或文档中完成写作练习')">开始写作</button>
+                        </div>
                     </div>
                 </li>
                 <li class="task-item" data-task="3">
@@ -507,6 +371,9 @@
                         <div class="task-time">14:00-15:30</div>
                         <div class="task-text">听力：Conversation 2篇+Lecture 1篇</div>
                         <div class="task-note">练习笔记法，关注语法信号词</div>
+                        <div class="task-actions">
+                            <button class="btn-small btn-start" onclick="alert('请使用TPO听力材料练习')">开始练习</button>
+                        </div>
                     </div>
                 </li>
                 <li class="task-item" data-task="4">
@@ -515,6 +382,9 @@
                         <div class="task-time">15:45-17:00</div>
                         <div class="task-text">口语：Task 1-2 各练习3题</div>
                         <div class="task-note">录音并检查语法错误</div>
+                        <div class="task-actions">
+                            <button class="btn-small btn-start" onclick="alert('请使用手机录音练习')">开始练习</button>
+                        </div>
                     </div>
                 </li>
                 <li class="task-item" data-task="5">
@@ -529,7 +399,7 @@
                     <div class="checkbox"></div>
                     <div class="task-content">
                         <div class="task-time">20:00-20:30</div>
-                        <div class="task-text">语法专项：主谓一致+时态改错50句</div>
+                        <div class="task-text">语法专项：主谓一致+时态改错</div>
                         <div class="task-note">针对自测中的薄弱点</div>
                     </div>
                 </li>
@@ -551,19 +421,19 @@
             </div>
             
             <div class="completion-message" id="completionMsg2">
-                <h2>🎉 Day 2 完成！</h2>
+                <h2>🎉 3月6日完成！</h2>
                 <p>写作模板记住了吗？明天继续从句训练！</p>
             </div>
         </div>
         
-        <!-- Day 3 -->
+        <!-- Day 3: 3月7日 -->
         <div class="day-card" data-day="3">
             <div class="day-header">
                 <div>
-                    <span class="day-title">Day 3</span>
+                    <span class="day-title">3月7日</span>
                     <span class="day-phase">强化期</span>
                 </div>
-                <div class="day-date">3月7日 周五</div>
+                <div class="day-date">周五 · Day 3</div>
             </div>
             
             <div class="day-focus">
@@ -578,6 +448,9 @@
                         <div class="task-time">09:00-10:30</div>
                         <div class="task-text">阅读：TPO Passage 2篇+错题分析</div>
                         <div class="task-note">分析语法在阅读理解中的作用</div>
+                        <div class="task-actions">
+                            <button class="btn-small btn-start" onclick="alert('请使用TPO阅读材料练习')">开始练习</button>
+                        </div>
                     </div>
                 </li>
                 <li class="task-item" data-task="2">
@@ -586,6 +459,9 @@
                         <div class="task-time">10:45-12:00</div>
                         <div class="task-text">综合写作：模板+练习2篇</div>
                         <div class="task-note">掌握阅读-听力对比的语法表达</div>
+                        <div class="task-actions">
+                            <button class="btn-small btn-start" onclick="alert('请在纸上或文档中完成写作练习')">开始写作</button>
+                        </div>
                     </div>
                 </li>
                 <li class="task-item" data-task="3">
@@ -594,6 +470,9 @@
                         <div class="task-time">14:00-15:30</div>
                         <div class="task-text">听力：Lecture 3篇+笔记整理</div>
                         <div class="task-note">关注学科词汇和语法结构</div>
+                        <div class="task-actions">
+                            <button class="btn-small btn-start" onclick="alert('请使用TPO听力材料练习')">开始练习</button>
+                        </div>
                     </div>
                 </li>
                 <li class="task-item" data-task="4">
@@ -602,6 +481,9 @@
                         <div class="task-time">15:45-17:00</div>
                         <div class="task-text">口语：Task 3-4 各练习3题</div>
                         <div class="task-note">使用从句连接信息</div>
+                        <div class="task-actions">
+                            <button class="btn-small btn-start" onclick="alert('请使用手机录音练习')">开始练习</button>
+                        </div>
                     </div>
                 </li>
                 <li class="task-item" data-task="5">
@@ -638,17 +520,26 @@
             </div>
             
             <div class="completion-message" id="completionMsg3">
-                <h2>🎉 Day 3 完成！</h2>
+                <h2>🎉 3月7日完成！</h2>
                 <p>后天就是第一次模考了，准备好！</p>
             </div>
         </div>
-        
-        <!-- Day 4-9 will be generated similarly -->
-        
     </div>
-    
+
     <script>
-        // Initialize
+        // Day configuration with dates
+        const dayConfig = [
+            { day: 1, date: '3月5日', weekday: '周三', phase: '诊断期' },
+            { day: 2, date: '3月6日', weekday: '周四', phase: '强化期' },
+            { day: 3, date: '3月7日', weekday: '周五', phase: '强化期' },
+            { day: 4, date: '3月8日', weekday: '周六', phase: '模考期' },
+            { day: 5, date: '3月9日', weekday: '周日', phase: '突破期' },
+            { day: 6, date: '3月10日', weekday: '周一', phase: '模考期' },
+            { day: 7, date: '3月11日', weekday: '周二', phase: '冲刺期' },
+            { day: 8, date: '3月12日', weekday: '周三', phase: '调整期' },
+            { day: 9, date: '3月13日', weekday: '周四', phase: '放松期' }
+        ];
+        
         let currentDay = 1;
         let completedDays = JSON.parse(localStorage.getItem('toeflCompletedDays') || '[]');
         let taskStatus = JSON.parse(localStorage.getItem('toeflTaskStatus') || '{}');
@@ -666,24 +557,27 @@
             document.getElementById('progressBar').style.width = progress + '%';
         }
         
-        // Create day navigation dots
+        // Create day navigation dots with dates
         function createDayNav() {
             const nav = document.getElementById('dayNav');
             nav.innerHTML = '';
-            for (let i = 1; i <= 9; i++) {
+            dayConfig.forEach(config => {
                 const dot = document.createElement('div');
                 dot.className = 'day-dot';
-                dot.textContent = i;
-                if (completedDays.includes(i)) {
+                dot.innerHTML = `
+                    <span class="day-label">${config.date}</span>
+                    <span class="day-date-small">${config.weekday}</span>
+                `;
+                if (completedDays.includes(config.day)) {
                     dot.classList.add('completed');
-                } else if (i === currentDay) {
+                } else if (config.day === currentDay) {
                     dot.classList.add('active');
                 } else {
                     dot.classList.add('pending');
                 }
-                dot.onclick = () => goToDay(i);
+                dot.onclick = () => goToDay(config.day);
                 nav.appendChild(dot);
-            }
+            });
         }
         
         // Go to specific day
@@ -692,7 +586,7 @@
             document.querySelectorAll('.day-card').forEach(card => {
                 card.classList.remove('active');
             });
-            const targetCard = document.querySelector(`.day-card[data-day="${day}"]`);
+            const targetCard = document.querySelector('.day-card[data-day="' + day + '"]');
             if (targetCard) {
                 targetCard.classList.add('active');
             }
@@ -708,7 +602,7 @@
             }
             
             // Show completion message
-            const msg = document.getElementById(`completionMsg${day}`);
+            const msg = document.getElementById('completionMsg' + day);
             if (msg) {
                 msg.classList.add('show');
             }
@@ -717,7 +611,7 @@
             createDayNav();
             
             // Auto advance to next day after 2 seconds
-            if (day < 9) {
+            if (day < 3) {
                 setTimeout(() => {
                     goToDay(day + 1);
                 }, 2000);
@@ -726,11 +620,12 @@
         
         // Task checkbox toggle
         document.querySelectorAll('.task-item').forEach(item => {
-            item.addEventListener('click', function() {
+            item.addEventListener('click', function(e) {
+                if (e.target.tagName === 'BUTTON') return;
                 this.classList.toggle('completed');
                 const day = this.closest('.day-card').dataset.day;
                 const task = this.dataset.task;
-                const key = `${day}-${task}`;
+                const key = day + '-' + task;
                 taskStatus[key] = this.classList.contains('completed');
                 localStorage.setItem('toeflTaskStatus', JSON.stringify(taskStatus));
             });
@@ -738,9 +633,9 @@
         
         // Load task status
         function loadTaskStatus(day) {
-            document.querySelectorAll(`.day-card[data-day="${day}"] .task-item`).forEach(item => {
+            document.querySelectorAll('.day-card[data-day="' + day + '"] .task-item').forEach(item => {
                 const task = item.dataset.task;
-                const key = `${day}-${task}`;
+                const key = day + '-' + task;
                 if (taskStatus[key]) {
                     item.classList.add('completed');
                 } else {
