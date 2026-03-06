@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>语法知识点 - 詹乐童</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container { max-width: 900px; margin: 0 auto; }
+        
+        /* 顶部掌握状态栏 */
+        .mastery-bar {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        .mastery-info h2 {
+            color: #333;
+            margin-bottom: 5px;
+        }
+        .mastery-info p {
+            color: #666;
+            font-size: 0.9em;
+        }
+        .mastery-btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+        .mastery-btn.not-mastered {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+        .mastery-btn.not-mastered:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+        .mastery-btn.mastered {
+            background: #28a745;
+            color: white;
+        }
+        .mastery-btn.mastered::before {
+            content: '✓ ';
+        }
+        
+        /* 视频区域 */
+        .video-section {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+        }
+        .section-title {
+            font-size: 1.3em;
+            color: #333;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            border-radius: 12px;
+            background: #f0f0f0;
+        }
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        .video-placeholder {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            color: #666;
+        }
+        .video-placeholder a {
+            color: #667eea;
+            text-decoration: none;
+            margin-top: 10px;
+            padding: 10px 20px;
+            background: #f0f0f0;
+            border-radius: 20px;
+        }
+        
+        /* 测试题区域 */
+        .quiz-section {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+        }
+        .quiz-item {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+        }
+        .quiz-number {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 28px;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        .quiz-question {
+            color: #333;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .quiz-option {
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            padding: 12px 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .quiz-option:hover { border-color: #667eea; background: #f8f9ff; }
+        .quiz-option.selected { border-color: #667eea; background: #e8eaff; }
+        .quiz-option.correct { border-color: #28a745; background: #d4edda; }
+        .quiz-option.wrong { border-color: #dc3545; background: #f8d7da; }
+        .quiz-answer {
+            margin-top: 15px;
+            padding: 15px;
+            background: #e8f5e9;
+            border-radius: 8px;
+            display: none;
+        }
+        .quiz-answer.show { display: block; }
+        .quiz-answer h4 { color: #2e7d32; margin-bottom: 8px; }
+        .quiz-answer p { color: #555; line-height: 1.6; }
+        
+        /* 知识点总结 */
+        .summary-section {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+        }
+        .summary-content {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px 20px;
+            border-radius: 0 12px 12px 0;
+        }
+        .summary-content h4 {
+            color: #856404;
+            margin-bottom: 10px;
+        }
+        .summary-content ul {
+            color: #856404;
+            padding-left: 20px;
+        }
+        .summary-content li {
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+        
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+        }
+        .nav-btn {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            text-decoration: none;
+        }
+        .nav-btn.secondary {
+            background: #e9ecef;
+            color: #666;
+        }
+        .nav-btn.secondary:hover { background: #dee2e6; }
+        .nav-btn.primary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+        .nav-btn.primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+        
+        @media (max-width: 600px) {
+            .mastery-bar { flex-direction: column; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 掌握状态栏 -->
+        <div class="mastery-bar">
+            <div class="mastery-info">
+                <h2 id="topicTitle">加载中...</h2>
+                <p>观看视频讲解 → 完成测试题 → 确认掌握</p>
+            </div>
+            <button class="mastery-btn not-mastered" id="masteryBtn" onclick="toggleMastery()">
+                我掌握了
+            </button>
+        </div>
+        
+        <!-- 视频讲解 -->
+        <div class="video-section">
+            <div class="section-title">🎬 视频讲解</div>
+            <div class="video-container" id="videoContainer">
+                <!-- 视频将通过JS动态插入 -->
+            </div>
+        </div>
+        
+        <!-- 知识点总结 -->
+        <div class="summary-section">
+            <div class="section-title">📋 核心知识点</div>
+            <div class="summary-content" id="summaryContent">
+                <!-- 内容将通过JS动态插入 -->
+            </div>
+        </div>
+        
+        <!-- 测试题 -->
+        <div class="quiz-section">
+            <div class="section-title">📝 测试题（3道）</div>
+            <div id="quizContainer">
+                <!-- 测试题将通过JS动态插入 -->
+            </div>
+        </div>
+        
+        <!-- 导航按钮 -->
+        <div class="nav-buttons">
+            <a href="grammar-hub.html" class="nav-btn secondary">← 返回知识图谱</a>
+            <button class="nav-btn primary" onclick="nextTopic()">下一个知识点 →</button>
+        </div>
+    </div>
+
+    <script>
+        // 获取URL参数
+        const urlParams = new URLSearchParams(window.location.search);
+        const topicId = urlParams.get('id') || 'subject-verb';
+        
+        // 知识点数据
+        const topicData = {
+            'subject-verb': {
+                title: '1. 主谓一致',
+                video: 'https://player.bilibili.com/player.html?bvid=BV1xxxxxx',
+                videoLink: 'https://www.bilibili.com/video/BV1xxxxxx',
+                summary: [
+                    '<strong>第三人称单数</strong>：he/she/it + 动词+s/es（She agrees）',
+                    '<strong>There be就近原则</strong>：动词与最近主语一致（There is a book and two pens）',
+                    '<strong>不定代词+单数</strong>：everyone/each/none + 单数动词（Everyone has）',
+                    '<strong>就远原则</strong>：along with/as well as 前面的主语决定（The professor, along with students, is coming）'
+                ],
+                questions: [
+                    {
+                        q: 'There _______ many reasons why students prefer online learning.',
+                        options: ['is', 'are', 'was', 'were'],
+                        answer: 1,
+                        explanation: 'There be句型遵循就近原则，后面是"many reasons"（复数），所以用are。'
+                    },
+                    {
+                        q: '改错题：The professor, along with his students, are going to the conference.',
+                        options: ['are → is', 'are → were', 'going → go', 'students → student'],
+                        answer: 0,
+                        explanation: 'along with连接两个主语时，谓语动词与前面的主语（The professor）保持一致，用单数is。'
+                    },
+                    {
+                        q: 'Everyone in the class _______ their homework on time.',
+                        options: ['complete', 'completes', 'completing', 'completed'],
+                        answer: 1,
+                        explanation: 'everyone是不定代词，作主语时谓语动词用单数形式completes。'
+                    }
+                ]
+            },
+            'tense': {
+                title: '2. 时态运用',
+                video: 'https://player.bilibili.com/player.html?bvid=BV1yyyyyy',
+                videoLink: 'https://www.bilibili.com/video/BV1yyyyyy',
+                summary: [
+                    '<strong>一般现在时</strong>：事实、习惯（The earth revolves around the sun）',
+                    '<strong>一般过去时</strong>：过去动作+具体时间（I visited Paris three years ago）',
+                    '<strong>现在完成时</strong>：过去影响现在，无具体时间（I have visited Paris many times）',
+                    '<strong>过去完成时</strong>：过去的过去（By the time I arrived, the movie had started）'
+                ],
+                questions: [
+                    {
+                        q: 'By the time we arrived at the theater, the movie _______.',
+                        options: ['started', 'has started', 'had started', 'starts'],
+                        answer: 2,
+                        explanation: 'By the time + 过去时，主句用过去完成时（had done），表示"过去的过去"。'
+                    },
+                    {
+                        q: '改错题：I have lived in Beijing three years ago.',
+                        options: ['have lived → lived', 'have lived → live', 'ago → before', 'in → at'],
+                        answer: 0,
+                        explanation: '现在完成时不能与具体过去时间（three years ago）连用，改为一般过去时lived。'
+                    },
+                    {
+                        q: 'The professor _______ that online learning is effective.',
+                        options: ['says', 'said', 'has said', 'is saying'],
+                        answer: 0,
+                        explanation: '陈述客观事实或普遍观点用一般现在时。'
+                    }
+                ]
+            },
+            'sentence-structure': {
+                title: '3. 句子结构',
+                video: 'https://player.bilibili.com/player.html?bvid=BV1zzzzzz',
+                videoLink: 'https://www.bilibili.com/video/BV1zzzzzz',
+                summary: [
+                    '<strong>简单句</strong>：主谓宾/主系表（Students study hard）',
+                    '<strong>并列句</strong>：and/but/or/so连接（I like coffee, but she prefers tea）',
+                    '<strong>复合句</strong>：主句+从句（I think that he is right）',
+                    '<strong>⚠️ Although和but不能同时用！</strong>',
+                    '<strong>⚠️ Because和so不能同时用！</strong>'
+                ],
+                questions: [
+                    {
+                        q: '改错题：Although he is smart, but he doesn\'t work hard.',
+                        options: ['去掉but', '去掉Although', 'but → however', 'Although → Though'],
+                        answer: 0,
+                        explanation: 'Although和but不能同时出现在一个句子中，二选一即可。'
+                    },
+                    {
+                        q: '改错题：There are many students don\'t understand this concept.',
+                        options: ['are → is', 'don\'t → not', 'students → student', '加who'],
+                        answer: 3,
+                        explanation: '一个句子不能有两个谓语动词（are和don\'t），需要加关系代词who构成定语从句。'
+                    },
+                    {
+                        q: '改错题：The professor explained the theory, then he gave examples.',
+                        options: ['加and', 'then → and', '加so', '去掉then'],
+                        answer: 0,
+                        explanation: '逗号不能连接两个独立句子，需要加并列连词and，变成", and then"。'
+                    }
+                ]
+            },
+            'clauses': {
+                title: '4. 从句结构',
+                video: 'https://player.bilibili.com/player.html?bvid=BV1aaaaaa',
+                videoLink: 'https://www.bilibili.com/video/BV1aaaaaa',
+                summary: [
+                    '<strong>定语从句</strong>：who/which/that/where/when（The book which I bought）',
+                    '<strong>名词性从句</strong>：what/whether/if/that（I don\'t know whether he will come）',
+                    '<strong>状语从句</strong>：although/because/when/while（Although it rained, we went out）',
+                    '<strong>⚠️ The reason...is that...</strong>（不用because）'
+                ],
+                questions: [
+                    {
+                        q: 'This is the book _______ I told you about.',
+                        options: ['what', 'which', 'where', 'when'],
+                        answer: 1,
+                        explanation: '先行词是book（物），定语从句用which或that引导。what不能引导定语从句。'
+                    },
+                    {
+                        q: '改错题：The reason I chose this major is because I like it.',
+                        options: ['because → that', 'because → why', 'reason → cause', 'is → was'],
+                        answer: 0,
+                        explanation: 'The reason...is that...是固定搭配，表语从句用that引导，不用because。'
+                    },
+                    {
+                        q: 'I don\'t know _______ he will come tomorrow.',
+                        options: ['that', 'if', 'which', 'what'],
+                        answer: 1,
+                        explanation: '表示"是否"用if或whether引导宾语从句。'
+                    }
+                ]
+            },
+            'non-finite': {
+                title: '5. 非谓语动词',
+                video: 'https://player.bilibili.com/player.html?bvid=BV1bbbbbb',
+                videoLink: 'https://www.bilibili.com/video/BV1bbbbbb',
+                summary: [
+                    '<strong>不定式 to do</strong>：目的、将来（I study hard to pass the exam）',
+                    '<strong>动名词 doing</strong>：主语、宾语（Swimming is good exercise）',
+                    '<strong>现在分词 doing</strong>：主动、进行（The man standing there）',
+                    '<strong>过去分词 done</strong>：被动、完成（The book written by him）'
+                ],
+                questions: [
+                    {
+                        q: '_______ in a team is better than working alone.',
+                        options: ['Work', 'To work', 'Working', 'Worked'],
+                        answer: 2,
+                        explanation: '动词作主语要用动名词形式（doing）。'
+                    },
+                    {
+                        q: '改错题：He is good in playing chess.',
+                        options: ['in → at', 'in → for', 'playing → play', 'good → well'],
+                        answer: 0,
+                        explanation: 'be good at是固定搭配，at是介词，后面接动名词playing。'
+                    },
+                    {
+                        q: 'I study hard _______ the exam.',
+                        options: ['pass', 'to pass', 'passing', 'passed'],
+                        answer: 1,
+                        explanation: '不定式to do表示目的，"为了通过考试"。'
+                    }
+                ]
+            },
+            'word-forms': {
+                title: '6. 词法基础',
+                video: 'https://player.bilibili.com/player.html?bvid=BV1cccccc',
+                videoLink: 'https://www.bilibili.com/video/BV1cccccc',
+                summary: [
+                    '<strong>冠词</strong>：a/an（泛指）, the（特指）（I read a book. The book is interesting）',
+                    '<strong>介词</strong>：in+大时间, on+具体某天, at+具体时刻（in 2024, on Monday, at 3 o\'clock）',
+                    '<strong>形容词/副词</strong>：形容词修饰名词，副词修饰动词（a quick decision / decide quickly）',
+                    '<strong>less/fewer</strong>：less修饰不可数，fewer修饰可数'
+                ],
+                questions: [
+                    {
+                        q: 'We need to make a _______ about our future.',
+                        options: ['decide', 'decision', 'decisive', 'deciding'],
+                        answer: 1,
+                        explanation: 'make a + 名词，decide是动词，decision是名词。'
+                    },
+                    {
+                        q: 'He did _______ on the test.',
+                        options: ['bad', 'badly', 'worse', 'worst'],
+                        answer: 1,
+                        explanation: '修饰动词did要用副词badly。'
+                    },
+                    {
+                        q: 'There are _______ students in this class than before.',
+                        options: ['less', 'fewer', 'little', 'few'],
+                        answer: 1,
+                        explanation: 'students是可数名词，用fewer修饰。less修饰不可数名词。'
+                    }
+                ]
+            },
+            'academic': {
+                title: '7. 学术表达',
+                video: 'https://player.bilibili.com/player.html?bvid=BV1dddddd',
+                videoLink: 'https://www.bilibili.com/video/BV1dddddd',
+                summary: [
+                    '<strong>表达观点</strong>：I believe that... / In my opinion...',
+                    '<strong>举例</strong>：For example / For instance',
+                    '<strong>对比</strong>：On the other hand / However',
+                    '<strong>总结</strong>：In conclusion / To sum up',
+                    '<strong>强调</strong>：It is important to note that...'
+                ],
+                questions: [
+                    {
+                        q: '_______, online learning offers more flexibility.',
+                        options: ['I think', 'In my opinion', 'I believe that', 'Maybe'],
+                        answer: 2,
+                        explanation: '学术写作中，I believe that比I think更正式。'
+                    },
+                    {
+                        q: 'Some people prefer online learning. _______, others think traditional classes are better.',
+                        options: ['And', 'But', 'However', 'So'],
+                        answer: 2,
+                        explanation: '表示转折对比用However（后面通常有逗号）。'
+                    },
+                    {
+                        q: '_______, both online and traditional learning have their advantages.',
+                        options: ['At last', 'In the end', 'In conclusion', 'Finally'],
+                        answer: 2,
+                        explanation: '学术写作总结用In conclusion或To sum up，更正式。'
+                    }
+                ]
+            },
+            'transitions': {
+                title: '8. 逻辑连接',
+                video: 'https://player.bilibili.com/player.html?bvid=BV1eeeeee',
+                videoLink: 'https://www.bilibili.com/video/BV1eeeeee',
+                summary: [
+                    '<strong>递进</strong>：furthermore, moreover, in addition, besides',
+                    '<strong>转折</strong>：however, nevertheless, on the contrary, while',
+                    '<strong>因果</strong>：therefore, thus, as a result, consequently',
+                    '<strong>举例</strong>：for example, for instance, such as',
+                    '<strong>顺序</strong>：first, second, finally, in conclusion'
+                ],
+                questions: [
+                    {
+                        q: 'The weather was bad. _______, we decided to stay home.',
+                        options: ['However', 'Therefore', 'Furthermore', 'For example'],
+                        answer: 1,
+                        explanation: '前后是因果关系，"天气不好，因此决定待在家里"。'
+                    },
+                    {
+                        q: 'Online learning is convenient. _______, it allows students to study at their own pace.',
+                        options: ['However', 'Therefore', 'Furthermore', 'Although'],
+                        answer: 2,
+                        explanation: '前后是递进关系，"网课很方便，此外还能按自己节奏学习"。'
+                    },
+                    {
+                        q: 'Some argue that technology improves education. _______, others believe it distracts students.',
+                        options: ['Furthermore', 'Therefore', 'However', 'For example'],
+                        answer: 2,
+                        explanation: '前后是转折对比关系，"有人认为...然而其他人认为..."。'
+                    }
+                ]
+            },
+            'common-errors': {
+                title: '9. 错误规避',
+                video: 'https://player.bilibili.com/player.html?bvid=BV1ffffff',
+                videoLink: 'https://www.bilibili.com/video/BV1ffffff',
+                summary: [
+                    '<strong>Top 1</strong>：主谓不一致（She don\'t → She doesn\'t）',
+                    '<strong>Top 2</strong>：时态错误（have visited yesterday → visited yesterday）',
+                    '<strong>Top 3</strong>：Although...but（去掉but）',
+                    '<strong>Top 4</strong>：词性错误（make a decide → make a decision）',
+                    '<strong>Top 5</strong>：双谓语（加who）',
+                    '<strong>自查清单</strong>：写作后检查主谓、时态、Although/But、冠词'
+                ],
+                questions: [
+                    {
+                        q: '找出所有错误：I very like this book because it is very interesting, and I think it is more better than other books.',
+                        options: ['very like → like very much', 'more better → better', '两个都对', '都没有错'],
+                        answer: 2,
+                        explanation: 'I very like → I like...very much；more better → better（比较级不能重复）。'
+                    },
+                    {
+                        q: '找出所有错误：There is many students don\'t understand this concept, and the professor is very worry about this.',
+                        options: ['is → are', '加who', 'worry → worried', '以上都对'],
+                        answer: 3,
+                        explanation: 'There is → There are；students don\'t → students who don\'t；worry → worried。'
+                    },
+                    {
+                        q: '找出所有错误：Although online learning is convenient, but it also has some disadvantages.',
+                        options: ['去掉but', '去掉Although', 'but → however', 'Although → Though'],
+                        answer: 0,
+                        explanation: 'Although和but不能同时用，去掉but即可。'
+                    }
+                ]
+            }
+        };
+        
+        // 当前知识点数据
+        const currentData = topicData[topicId] || topicData['subject-verb'];
+        
+        // 初始化页面
+        function initPage() {
+            document.getElementById('topicTitle').textContent = currentData.title;
+            
+            // 设置视频
+            const videoContainer = document.getElementById('videoContainer');
+            videoContainer.innerHTML = `
+                <div class="video-placeholder">
+                    <p>📹 B站视频讲解</p>
+                    <a href="${currentData.videoLink}" target="_blank">点击跳转到B站观看</a>
+                </div>
+            `;
+            
+            // 设置知识点总结
+            const summaryContent = document.getElementById('summaryContent');
+            summaryContent.innerHTML = `
+                <h4>核心要点</h4>
+                <ul>
+                    ${currentData.summary.map(item => `<li>${item}</li>`).join('')}
+                </ul>
+            `;
+            
+            // 设置测试题
+            const quizContainer = document.getElementById('quizContainer');
+            quizContainer.innerHTML = currentData.questions.map((q, index) => `
+                <div class="quiz-item" data-q="${index}">
+                    <div class="quiz-question">
+                        <span class="quiz-number">${index + 1}</span>
+                        ${q.q}
+                    </div>
+                    <div class="quiz-options">
+                        ${q.options.map((opt, optIndex) => `
+                            <div class="quiz-option" data-answer="${optIndex}" onclick="selectAnswer(${index}, ${optIndex})">
+                                ${String.fromCharCode(65 + optIndex)}. ${opt}
+                            </div>
+                        `).join('')}
+                    </div>
+                    <div class="quiz-answer" id="answer-${index}">
+                        <h4>✓ 正确答案：${String.fromCharCode(65 + q.answer)}</h4>
+                        <p>${q.explanation}</p>
+                    </div>
+                </div>
+            `).join('');
+            
+            // 检查掌握状态
+            updateMasteryButton();
+        }
+        
+        // 选择答案
+        function selectAnswer(qIndex, answerIndex) {
+            const quizItem = document.querySelector(`.quiz-item[data-q="${qIndex}"]`);
+            const options = quizItem.querySelectorAll('.quiz-option');
+            const correctAnswer = currentData.questions[qIndex].answer;
+            
+            // 清除之前的选择
+            options.forEach(opt => {
+                opt.classList.remove('selected', 'correct', 'wrong');
+            });
+            
+            // 标记选择
+            options[answerIndex].classList.add('selected');
+            
+            // 显示答案
+            const answerDiv = document.getElementById(`answer-${qIndex}`);
+            answerDiv.classList.add('show');
+            
+            // 标记正确/错误
+            if (answerIndex === correctAnswer) {
+                options[answerIndex].classList.add('correct');
+            } else {
+                options[answerIndex].classList.add('wrong');
+                options[correctAnswer].classList.add('correct');
+            }
+        }
+        
+        // 切换掌握状态
+        function toggleMastery() {
+            let mastered = JSON.parse(localStorage.getItem('grammarMastered') || '[]');
+            
+            if (mastered.includes(topicId)) {
+                mastered = mastered.filter(id => id !== topicId);
+            } else {
+                mastered.push(topicId);
+            }
+            
+            localStorage.setItem('grammarMastered', JSON.stringify(mastered));
+            updateMasteryButton();
+        }
+        
+        // 更新掌握按钮状态
+        function updateMasteryButton() {
+            const mastered = JSON.parse(localStorage.getItem('grammarMastered') || '[]');
+            const btn = document.getElementById('masteryBtn');
+            
+            if (mastered.includes(topicId)) {
+                btn.textContent = '已掌握';
+                btn.classList.remove('not-mastered');
+                btn.classList.add('mastered');
+            } else {
+                btn.textContent = '我掌握了';
+                btn.classList.remove('mastered');
+                btn.classList.add('not-mastered');
+            }
+        }
+        
+        // 下一个知识点
+        function nextTopic() {
+            const topics = Object.keys(topicData);
+            const currentIndex = topics.indexOf(topicId);
+            const nextIndex = (currentIndex + 1) % topics.length;
+            window.location.href = 'grammar-topic.html?id=' + topics[nextIndex];
+        }
+        
+        // 初始化
+        initPage();
+    </script>
+</body>
+</html>
